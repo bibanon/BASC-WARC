@@ -170,7 +170,7 @@ class RecordHeader(object):
 
     def set_field(self, name, value):
         """Set field to the given value."""
-        self.field[name] = value
+        self.fields[name] = value
 
     def bytes(self):
         """Return bytes to write."""
@@ -179,10 +179,14 @@ class RecordHeader(object):
         for key, value in sorted(self.fields.items(), key=warc_sort_keyfn):
             if isinstance(key, str):
                 key = key.encode('utf8')
+            elif isinstance(key, int):
+                key = str(key).encode('utf8')
             if isinstance(value, str):
                 value = value.encode('utf8')
+            elif isinstance(value, int):
+                value = str(value).encode('utf8')
 
-            field_bytes += key + b': ' + value
+            field_bytes += bytes(key) + b': ' + bytes(value)
 
         return WARC_VERSION + CRLF + field_bytes + CRLF
 
@@ -226,10 +230,14 @@ class WarcinfoBlock(object):
             for key, value in self.fields.items():
                 if isinstance(key, str):
                     key = key.encode('utf8')
+                elif isinstance(key, int):
+                    key = str(key).encode('utf8')
                 if isinstance(value, str):
                     value = value.encode('utf8')
+                elif isinstance(value, int):
+                    value = str(value).encode('utf8')
 
-                info_fields.append(key + b': ' + value)
+                info_fields.append(bytes(key) + b': ' + bytes(value))
 
             # assemble into final block
             info = CRLF.join(info_fields)
