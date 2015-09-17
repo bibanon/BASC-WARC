@@ -1,4 +1,4 @@
-BASC-Warc
+BASC-WARC
 =========
 
 `Bibliotheca Anonoma's <http://bibanon.org/>`_ library for creating and managing WARC files.

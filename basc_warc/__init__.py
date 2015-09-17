@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# BASC-Warc library
+# BASC-WARC library
 #
 # Written in 2015 by Daniel Oaks <daniel@danieloaks.net>
 #
@@ -19,7 +19,7 @@ import basc_warc.utils
 __version__ = '0.0.1'
 
 WARC_VERSION = b'WARC/1.0'
-WARC_SOFTWARE = (b'BASC-Warc/' + __version__.encode() +
+WARC_SOFTWARE = (b'BASC-WARC/' + __version__.encode() +
                  b' Python/' + sys.version.encode())
 CRLF = b'\r\n'
 

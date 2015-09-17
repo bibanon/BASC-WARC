@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# BASC-Warc utility functions
+# BASC-WARC utility functions
 #
 # Written in 2015 by Daniel Oaks <daniel@danieloaks.net>
 #

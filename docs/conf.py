@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# BASC-Warc documentation build configuration file, created by
+# BASC-WARC documentation build configuration file, created by
 # sphinx-quickstart on Thu Sep 17 20:12:32 2015.
 #
 # This file is execfile()d with the current directory set to its
@@ -50,7 +50,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'BASC-Warc'
+project = 'BASC-WARC'
 copyright = '2015, Daniel Oaks'
 author = 'Daniel Oaks'
 
@@ -226,7 +226,7 @@ html_static_path = ['_static']
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'BASC-Warcdoc'
+htmlhelp_basename = 'BASC-WARCdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -248,7 +248,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'BASC-Warc.tex', 'BASC-Warc Documentation',
+  (master_doc, 'BASC-WARC.tex', 'BASC-WARC Documentation',
    'Daniel Oaks', 'manual'),
 ]
 
@@ -278,7 +278,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'basc-warc', 'BASC-Warc Documentation',
+    (master_doc, 'basc-warc', 'BASC-WARC Documentation',
      [author], 1)
 ]
 
@@ -292,8 +292,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'BASC-Warc', 'BASC-Warc Documentation',
-   author, 'BASC-Warc', 'Create and manage WARC files.',
+  (master_doc, 'BASC-WARC', 'BASC-WARC Documentation',
+   author, 'BASC-WARC', 'Create and manage WARC files.',
    'WARC Archiving'),
 ]
 

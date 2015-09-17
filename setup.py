@@ -11,14 +11,14 @@ with open('README.rst') as file:
 
 
 setup(
-    name='BASC-Warc',
+    name='BASC-WARC',
     version='0.0.1',
     description=('Create and manage WARC files. '
                  'Currently in planning / pre-alpha stage.'),
     long_description=long_description,
     author='Daniel Oaks',
     author_email='daniel@danieloaks.net',
-    url='https://github.com/bibanon/BASC-Warc',
+    url='https://github.com/bibanon/BASC-WARC',
     packages=['basc_warc'],
     package_dir={
         'basc_warc': 'basc_warc',
