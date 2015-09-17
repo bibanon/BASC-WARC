@@ -9,6 +9,7 @@ Pull requests are appreciated, but due to the early stage of development you may
 
 This library is primarily being written for `BASC-Archiver <https://github.com/bibanon/BASC-Archiver>`_, and planned to be integrated into a new/existing downloading library.
 
+`Hosted Documentation <http://basc-warc.readthedocs.org/en/latest/>`_
 
 Planned Features
 ----------------
