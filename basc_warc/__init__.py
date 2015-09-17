@@ -1,8 +1,20 @@
 # -*- coding: utf-8 -*-
-# BASC-Warc
+# BASC-Warc library
+#
+# Written in 2015 by Daniel Oaks <daniel@danieloaks.net>
+#
+# To the extent possible under law, the author(s) have dedicated all copyright
+# and related and neighboring rights to this software to the public domain
+# worldwide. This software is distributed without any warranty.
+#
+# You should have received a copy of the CC0 Public Domain Dedication along
+# with this software. If not, see
+# <http://creativecommons.org/publicdomain/zero/1.0/>.
 """Create and manage WARC files."""
 import sys
 import threading
+
+import basc_warc.utils
 
 __version__ = '0.0.1'
 
@@ -10,6 +22,17 @@ WARC_VERSION = b'WARC/1.0'
 WARC_SOFTWARE = (b'BASC-Warc/' + __version__.encode() +
                  b' Python/' + sys.version.encode())
 CRLF = b'\r\n'
+
+warc_sort_keyfn = basc_warc.utils.sort_manual_keys(
+    'WARC-Type', 'WARC-Record-ID', 'WARC-Date',
+    'Content-Length', 'Content-Type', 'WARC-Concurrent-To',
+    'WARC-Block-Digest', 'WARC-Payload-Digest',
+    'WARC-IP-Address', 'WARC-Refers-To',
+    'WARC-Target-URI', 'WARC-Truncated',
+    'WARC-Warcinfo-ID', 'WARC-Filename',
+    'WARC-Profile', 'WARC-Identified-Payload-Type',
+    'WARC-Segment-Origin-ID', 'WARC-Segment-Number',
+    'WARC-Segment-Total-Length')
 
 
 class WarcFile(object):
@@ -166,7 +189,7 @@ class WarcRecordHeader(object):
         """Return bytes to write."""
         field_bytes = bytes()
 
-        for key, value in self.fields.items():
+        for key, value in sorted(self.fields.items(), key=warc_sort_keyfn):
             if isinstance(key, str):
                 key = key.encode()
             if isinstance(value, str):
