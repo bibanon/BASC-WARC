@@ -197,10 +197,14 @@ class RecordHeader(object):
                 key = key.encode('utf8')
             elif isinstance(key, int):
                 key = str(key).encode('utf8')
+            elif hasattr(key, 'strftime'):
+                key = key.strftime('%Y-%m-%dT%H:%M:%SZ')
             if isinstance(value, str):
                 value = value.encode('utf8')
             elif isinstance(value, int):
                 value = str(value).encode('utf8')
+            elif hasattr(value, 'strftime'):
+                value = value.strftime('%Y-%m-%dT%H:%M:%SZ')
 
             field_bytes += bytes(key) + b': ' + bytes(value)
 
@@ -259,12 +263,14 @@ class WarcinfoBlock(object):
             for key, value in self.fields.items():
                 if isinstance(key, str):
                     key = key.encode('utf8')
-                elif isinstance(key, int):
-                    key = str(key).encode('utf8')
+                elif hasattr(key, 'strftime'):
+                    key = key.strftime('%Y-%m-%dT%H:%M:%SZ')
                 if isinstance(value, str):
                     value = value.encode('utf8')
                 elif isinstance(value, int):
                     value = str(value).encode('utf8')
+                elif hasattr(value, 'strftime'):
+                    value = value.strftime('%Y-%m-%dT%H:%M:%SZ')
 
                 info_fields.append(bytes(key) + b': ' + bytes(value))
 
