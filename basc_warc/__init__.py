@@ -18,18 +18,6 @@ class WarcFile(object):
         self.records = records
         self.records_lock = threading.Lock()
 
-        self.records_to_gz_together = []
-        self.records_to_gz_together_lock = threading.Lock()
-
-    def gz_together(self, *record_indexes):
-        """Mark the given records as ones we should gzip together.
-
-        Args:
-            record_indexes (ints): Indexes of the records we should gzip together.
-        """
-        with self.records_to_gz_together_lock:
-            self.records_to_gz_together.append(record_indexes)
-
     # adding records
     def add_record(self, record):
         """Add the given WarcRecord to our records.
@@ -43,12 +31,11 @@ class WarcFile(object):
         record_indexes = self.add_records(record)
         return record_indexes[0]
 
-    def add_records(self, *records, gz_together=False):
+    def add_records(self, *records):
         """Add the given WarcRecord objects to our records.
 
         Args:
             record (list of WarcRecord): Records to add to this WARC file.
-            gz_together (bool): Whether to gz these records together.
 
         Returns:
             Indexes of the added records.
@@ -61,9 +48,6 @@ class WarcFile(object):
                 record_indexes.append(record_index)
 
                 self.records.append(record)
-
-        if gz_together:
-            self.gz_together(*record_indexes)
 
         return record_indexes
 
@@ -135,10 +119,25 @@ class WarcFile(object):
 class WarcRecord(object):
     """A record in a WARC file."""
 
-    def __init__(self, record_type, block=None, fields=[]):
+    def __init__(self, record_type, header=None, block=None):
         self.version = WARC_VERSION
+        self.header = header
         self.block = block
+
+    def bytes(self):
+        """Return bytes to write."""
+        return self.header.bytes() + self.block.bytes()
+
+
+class WarcRecordHeader(object):
+    """A header for a WARC record."""
+
+    def __init__(self, fields={}):
         self.fields = fields
+
+    def bytes(self):
+        """Return bytes to write."""
+        return None
 
 
 class WarcinfoBlock(object):
@@ -146,20 +145,34 @@ class WarcinfoBlock(object):
 
     def __init__(self, fields={}):
         self.fields = fields
+        self._cache = None
 
-    def _get_bytes(self):
-        # assemble block items
-        info_fields = []
+    def set_field(self, name, value):
+        """Set field name to given value."""
+        self.fields[name] = value
+        self._cache = None
 
-        for key, value in self.fields.items():
-            if isinstance(key, str):
-                key = key.encode()
-            if isinstance(value, str):
-                value = value.encode()
+    def bytes(self):
+        """Return bytes to write."""
+        if self._cache is None:
+            # assemble block items
+            info_fields = []
 
-            info_fields.append(key + b': ' + value)
+            for key, value in self.fields.items():
+                if isinstance(key, str):
+                    key = key.encode()
+                if isinstance(value, str):
+                    value = value.encode()
 
-        # assemble into final block
-        info = b'\r\n'.join(info_fields)
+                info_fields.append(key + b': ' + value)
 
-        return info
+            # assemble into final block
+            info = b'\r\n'.join(info_fields)
+
+            self._cache = info
+
+        return self._cache
+
+    def length(self):
+        """Return length in bytes."""
+        return len(self.bytes())

@@ -14,7 +14,6 @@ Planned Features
 
 * Python 2/3 compatibility.
 * Thread-safe.
-* Ability to gz arbitrary adjacent members together if the spec allows it (for instance, gzip the `response` and `resource` members of one request together, to take advantage of the duplicated information).
 * Streaming reading/writing of WARC files, for dealing with very large files on systems with smaller amounts of memory.
 * CDX file creation and management.
 * Included scripts that do useful work, possibly allowing viewing or extracting information and files from WARCs / appending WARCs / creating CDX files from WARCs, similar to `megawarc <https://github.com/alard/megawarc>`_, `CDX-Writer <https://github.com/rajbot/CDX-Writer>`_, or `warctools <https://github.com/internetarchive/warctools>`_.
