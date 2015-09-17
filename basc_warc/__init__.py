@@ -65,7 +65,7 @@ class WarcFile(object):
 
     # adding records
     def add_record(self, record):
-        """Add the given WarcRecord to our records.
+        """Add the given Record to our records.
 
         Args:
             record: Record to add to this WARC file.
@@ -77,10 +77,10 @@ class WarcFile(object):
         return record_indexes[0]
 
     def add_records(self, *records):
-        """Add the given WarcRecord objects to our records.
+        """Add the given Record objects to our records.
 
         Args:
-            record (list of WarcRecord): Records to add to this WARC file.
+            record (list of Record): Records to add to this WARC file.
 
         Returns:
             Indexes of the added records.
@@ -107,7 +107,7 @@ class WarcFile(object):
         Returns:
             Index of the new added record.
         """
-        new_record = WarcRecord(record_type, block=block, fields=fields)
+        new_record = Record(record_type, block=block, fields=fields)
         record_index = self.add_record(new_record)
         return record_index
 
@@ -161,7 +161,7 @@ class WarcFile(object):
         return record_index
 
 
-class WarcRecord(object):
+class Record(object):
     """A record in a WARC file."""
 
     def __init__(self, record_type, header=None, block=None):
@@ -175,7 +175,7 @@ class WarcRecord(object):
         return self.header.bytes() + CRLF + self.block.bytes() + CRLF + CRLF
 
 
-class WarcRecordHeader(object):
+class RecordHeader(object):
     """A header for a WARC record."""
 
     def __init__(self, fields={}):
@@ -198,6 +198,24 @@ class WarcRecordHeader(object):
             field_bytes += key + b': ' + value
 
         return WARC_VERSION + CRLF + field_bytes + CRLF
+
+
+class RecordBlock(object):
+    """Block for an arbitrary record."""
+
+    def __init__(self, content=None):
+        if content is None:
+            self.content = bytes()
+        else:
+            self.content = bytes(content)
+
+    def bytes(self):
+        """Return bytes to write."""
+        return self.content
+
+    def length(self):
+        """Return length in bytes."""
+        return len(self.content)
 
 
 class WarcinfoBlock(object):
