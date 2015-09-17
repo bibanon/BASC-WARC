@@ -1,7 +1,7 @@
 BASC-Warc
 =========
 
-`Bibliotheca Anonoma's <http://bibanon.org/>`_ library for creating and dealing with WARC files.
+`Bibliotheca Anonoma's <http://bibanon.org/>`_ library for creating and managing WARC files.
 
 This library is in the planning / pre-alpha stage. It is still being written, and is not yet suitable for any real-world usage at this point. While we are still writing and designing the API, anything can change without any notice.
 

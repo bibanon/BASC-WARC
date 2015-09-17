@@ -1,6 +1,6 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# BASC Warc
+# BASC-Warc
+"""Create and manage WARC files."""
 import sys
 
 __version__ = '0.0.1'
