@@ -68,7 +68,7 @@ class WarcFile(object):
         """Add the given Record to our records.
 
         Args:
-            record: :class:`basc_warc.Record` to add to this WARC file.
+            record (:class:`basc_warc.Record`): Record to add to this WARC file.
 
         Returns:
             The index of the added record.
@@ -149,7 +149,13 @@ class WarcFile(object):
 
 
 class Record(object):
-    """A record in a WARC file."""
+    """A record in a WARC file.
+
+    Args:
+        record_type (string): Name of this type of record. ie: ``'warcinfo'``.
+        header (RecordHeader): A :class:`basc_warc.RecordHeader` object.
+        block (RecordBlock): A :class:`basc_warc.RecordBlock` object.
+    """
 
     def __init__(self, record_type, header=None, block=None):
         self.record_type = record_type
@@ -158,18 +164,28 @@ class Record(object):
 
     def bytes(self):
         """Return bytes to write."""
+        self.header.set_field('WARC-Type', self.record_type)
         self.header.set_field('Content-Length', self.block.length())
         return self.header.bytes() + CRLF + self.block.bytes() + CRLF + CRLF
 
 
 class RecordHeader(object):
-    """A header for a WARC record."""
+    """A header for a WARC record.
+
+    Args:
+        fields (dict): Fields to create this header with.
+    """
 
     def __init__(self, fields={}):
         self.fields = fields
 
     def set_field(self, name, value):
-        """Set field to the given value."""
+        """Set field to the given value.
+
+        Args:
+            name (string): Name of the field.
+            value (string or int): Value of the field.
+        """
         self.fields[name] = value
 
     def bytes(self):
@@ -192,7 +208,11 @@ class RecordHeader(object):
 
 
 class RecordBlock(object):
-    """Block for an arbitrary record."""
+    """Block for an arbitrary record.
+
+    Args:
+        content (bytes): Block of content to expose in this record.
+    """
 
     def __init__(self, content=None):
         if content is None:
@@ -210,14 +230,23 @@ class RecordBlock(object):
 
 
 class WarcinfoBlock(object):
-    """Block for a warcinfo record."""
+    """Block for a warcinfo record.
+
+    Args:
+        fields (dict): Fields to create this block with.
+    """
 
     def __init__(self, fields={}):
         self.fields = fields
         self._cache = None
 
     def set_field(self, name, value):
-        """Set field to given value."""
+        """Set field to given value.
+
+        Args:
+            name (string): Name of the field.
+            value (string or int): Value of the field.
+        """
         self.fields[name] = value
         self._cache = None
 

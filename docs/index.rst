@@ -37,6 +37,9 @@ Library
    :numbered:
 
    library/warcfile
+   library/record
+   library/recordheader
+   library/recordblock
 
 
 :ref:`genindex`
