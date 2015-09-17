@@ -19,8 +19,8 @@ import basc_warc.utils
 __version__ = '0.0.1'
 
 WARC_VERSION = b'WARC/1.0'
-WARC_SOFTWARE = (b'BASC-WARC/' + __version__.encode() +
-                 b' Python/' + sys.version.encode())
+WARC_SOFTWARE = (b'BASC-WARC/' + __version__.encode('utf8') +
+                 b' Python/' + sys.version.encode('utf8'))
 CRLF = b'\r\n'
 
 warc_sort_keyfn = basc_warc.utils.sort_manual_keys(
@@ -68,7 +68,7 @@ class WarcFile(object):
         """Add the given Record to our records.
 
         Args:
-            record: Record to add to this WARC file.
+            record: :class:`basc_warc.Record` to add to this WARC file.
 
         Returns:
             The index of the added record.
@@ -77,10 +77,10 @@ class WarcFile(object):
         return record_indexes[0]
 
     def add_records(self, *records):
-        """Add the given Record objects to our records.
+        """Add the given Records to our records.
 
         Args:
-            record (list of Record): Records to add to this WARC file.
+            record (list of :class:`basc_warc.Record`): Records to add to this WARC file.
 
         Returns:
             Indexes of the added records.
@@ -96,25 +96,9 @@ class WarcFile(object):
 
         return record_indexes
 
-    def add_new_record(self, record_type, block=None, fields={}):
-        """Add an arbitrary new record.
-
-        Args:
-            record_type (string): WARC record type.
-            block (bytes): Content block for this record.
-            fields (dict): Fields for this record.
-
-        Returns:
-            Index of the new added record.
-        """
-        new_record = Record(record_type, block=block, fields=fields)
-        record_index = self.add_record(new_record)
-        return record_index
-
     def add_warcinfo_record(self, fields={}, operator=None, software=None,
                             robots=None, hostname=None, ip=None,
-                            http_header_user_agent=None, http_header_from=None,
-                            **kwargs):
+                            http_header_user_agent=None, http_header_from=None):
         """Add a warcinfo record to this file.
 
         Args:
@@ -139,6 +123,7 @@ class WarcFile(object):
         Returns:
             Index of the new added record.
         """
+        # assemble fields
         if operator:
             fields['operator'] = operator
         if software:
@@ -154,10 +139,12 @@ class WarcFile(object):
         if http_header_from:
             fields['http-header-from'] = http_header_from
 
-        for key, value in kwargs:
-            fields[key] = value
+        # create record
+        header = RecordHeader({})
+        block = WarcinfoBlock(fields)
+        new_record = Record('warcinfo', header=header, block=block)
 
-        record_index = self.add_new_record('warcinfo', fields=fields)
+        record_index = self.add_record(new_record)
         return record_index
 
 
@@ -191,9 +178,9 @@ class RecordHeader(object):
 
         for key, value in sorted(self.fields.items(), key=warc_sort_keyfn):
             if isinstance(key, str):
-                key = key.encode()
+                key = key.encode('utf8')
             if isinstance(value, str):
-                value = value.encode()
+                value = value.encode('utf8')
 
             field_bytes += key + b': ' + value
 
@@ -238,9 +225,9 @@ class WarcinfoBlock(object):
 
             for key, value in self.fields.items():
                 if isinstance(key, str):
-                    key = key.encode()
+                    key = key.encode('utf8')
                 if isinstance(value, str):
-                    value = value.encode()
+                    value = value.encode('utf8')
 
                 info_fields.append(key + b': ' + value)
 
