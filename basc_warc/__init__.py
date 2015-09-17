@@ -9,6 +9,7 @@ __version__ = '0.0.1'
 WARC_VERSION = b'WARC/1.0'
 WARC_SOFTWARE = (b'BASC-Warc/' + __version__.encode() +
                  b' Python/' + sys.version.encode())
+CRLF = b'\r\n'
 
 
 class WarcFile(object):
@@ -17,6 +18,27 @@ class WarcFile(object):
     def __init__(self, records=[]):
         self.records = records
         self.records_lock = threading.Lock()
+
+    # output
+    def bytes(self, compress_records=False):
+        """Return bytes to write.
+
+        Args:
+            compress_records (bool): Whether to apply gzip compression to records.
+
+        Returns:
+            Bytes that represent this WARC file.
+        """
+        warc = bytes()
+
+        with self.records_lock:
+            for record in self.records:
+                if compress_records:
+                    print('Cannot compress records yet.')
+                else:
+                    warc += record.bytes()
+
+        return warc
 
     # adding records
     def add_record(self, record):
@@ -120,13 +142,14 @@ class WarcRecord(object):
     """A record in a WARC file."""
 
     def __init__(self, record_type, header=None, block=None):
-        self.version = WARC_VERSION
+        self.record_type = record_type
         self.header = header
         self.block = block
 
     def bytes(self):
         """Return bytes to write."""
-        return self.header.bytes() + self.block.bytes()
+        self.header.set_field('Content-Length', self.block.length())
+        return self.header.bytes() + CRLF + self.block.bytes() + CRLF + CRLF
 
 
 class WarcRecordHeader(object):
@@ -135,9 +158,23 @@ class WarcRecordHeader(object):
     def __init__(self, fields={}):
         self.fields = fields
 
+    def set_field(self, name, value):
+        """Set field to the given value."""
+        self.field[name] = value
+
     def bytes(self):
         """Return bytes to write."""
-        return None
+        field_bytes = bytes()
+
+        for key, value in self.fields.items():
+            if isinstance(key, str):
+                key = key.encode()
+            if isinstance(value, str):
+                value = value.encode()
+
+            field_bytes += key + b': ' + value
+
+        return WARC_VERSION + CRLF + field_bytes + CRLF
 
 
 class WarcinfoBlock(object):
@@ -148,7 +185,7 @@ class WarcinfoBlock(object):
         self._cache = None
 
     def set_field(self, name, value):
-        """Set field name to given value."""
+        """Set field to given value."""
         self.fields[name] = value
         self._cache = None
 
@@ -167,7 +204,7 @@ class WarcinfoBlock(object):
                 info_fields.append(key + b': ' + value)
 
             # assemble into final block
-            info = b'\r\n'.join(info_fields)
+            info = CRLF.join(info_fields)
 
             self._cache = info
 
