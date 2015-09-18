@@ -19,6 +19,7 @@ setup(
     author='Daniel Oaks',
     author_email='daniel@danieloaks.net',
     url='https://github.com/bibanon/BASC-WARC',
+    install_requires=['iso8601'],
     packages=['basc_warc'],
     package_dir={
         'basc_warc': 'basc_warc',

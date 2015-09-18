@@ -11,8 +11,12 @@
 # with this software. If not, see
 # <http://creativecommons.org/publicdomain/zero/1.0/>.
 """Utility functions used by basc_warc."""
+from datetime import datetime
+
+import iso8601
 
 
+# key sorting
 def sort_manual_keys(*sorted_keys):
     """Create a key function that sorts the given keys first."""
     _key_order = []
@@ -32,3 +36,39 @@ def sort_manual_keys(*sorted_keys):
         return '{}_{}'.format(len(_key_order), key)
 
     return key_fn
+
+
+# timestamps
+def ts_to_datetime(timestamp):
+    """Convert a WARC timestamp (ISO8601 subset) to a DateTime object."""
+    return iso8601.parse_date(timestamp)
+
+
+def datetime_to_ts(date_time):
+    """Convert a DateTime object into a WARC 1.0 timestamp."""
+    return date_time.strftime('%Y-%m-%dT%H:%M:%SZ')
+
+
+# field names / values
+def writable_field_name(name):
+    """Given a field name, return a writable series of bytes."""
+    if isinstance(name, str):
+        out = bytes(name.encode('utf8'))
+    elif isinstance(name, bytes):
+        out = name
+
+    return out
+
+
+def writable_field_value(value):
+    """Given a field value, return a writable series of bytes."""
+    if isinstance(value, str):
+        out = bytes(value.encode('utf8'))
+    elif isinstance(value, int):
+        out = bytes(str(value).encode('utf8'))
+    elif isinstance(value, datetime):
+        out = bytes(datetime_to_ts(value).encode('utf8'))
+    elif isinstance(value, bytes):
+        out = value
+
+    return out

@@ -21,6 +21,12 @@ Planned Features
 * Included scripts that do useful work, possibly allowing viewing or extracting information and files from WARCs / appending WARCs / creating CDX files from WARCs, similar to `megawarc <https://github.com/alard/megawarc>`_, `CDX-Writer <https://github.com/rajbot/CDX-Writer>`_, or `warctools <https://github.com/internetarchive/warctools>`_.
 
 
+Dependencies
+------------
+
+This module uses the `pyiso8601 <https://bitbucket.org/micktwomey/pyiso8601>`_ package.
+
+
 License
 -------
 
