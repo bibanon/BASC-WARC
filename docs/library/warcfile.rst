@@ -6,6 +6,14 @@ This class is how you create and manage WARC files.
 .. autoclass:: basc_warc.WarcFile
 
 
+Creating a new record
+---------------------
+
+You can create a new record from a :class:`basc_warc.WarcFile`.
+
+.. automethod:: basc_warc.WarcFile.create_record
+
+
 Adding specific records
 -----------------------
 

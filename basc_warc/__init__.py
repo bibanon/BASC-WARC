@@ -11,8 +11,10 @@
 # with this software. If not, see
 # <http://creativecommons.org/publicdomain/zero/1.0/>.
 """Create and manage WARC files."""
+import datetime
 import sys
 import threading
+import uuid
 
 from basc_warc import utils
 
@@ -64,6 +66,28 @@ class WarcFile(object):
         return warc
 
     # adding records
+    def create_record(self, record_type, defaults=True):
+        """Create a new blank record.
+
+        Args:
+            record_type (str): WARC record type.
+            defaults (bool): Create new record with ``WARC-Record-ID`` and ``WARC-Date``.
+
+        Returns:
+            New :class:`basc_warc.Record`
+        """
+        # create header
+        record_header = RecordHeader()
+
+        if defaults:
+            record_header.record_id = str(uuid.uuid4())
+            record_header.date = datetime.datetime.now()
+
+        # assemble record
+        new_record = Record(record_type, header=record_header)
+
+        return new_record
+
     def add_record(self, record):
         """Add the given Record to our records.
 
@@ -177,7 +201,7 @@ class RecordHeader(object):
     """
 
     def __init__(self, fields={}):
-        self.fields = fields
+        self.fields = utils.CaseInsensitiveDict(fields)
 
     def set_field(self, name, value):
         """Set field to the given value.
@@ -199,6 +223,25 @@ class RecordHeader(object):
             field_bytes += key + b': ' + value
 
         return WARC_VERSION + CRLF + field_bytes + CRLF
+
+    # convenience
+    @property
+    def record_id(self):
+        """ID of this Record, should be unique in the WARC."""
+        return self.fields.get('WARC-Record-ID')
+
+    @record_id.setter
+    def record_id(self, new_id):
+        self.fields['WARC-Record-ID'] = new_id
+
+    @property
+    def date(self):
+        """Datetime the data capture that created this Record started."""
+        return self.fields.get('WARC-Date')
+
+    @date.setter
+    def date(self, new_date):
+        self.fields['WARC-Date'] = new_date
 
 
 class RecordBlock(object):
