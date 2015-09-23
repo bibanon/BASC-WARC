@@ -17,6 +17,11 @@ import collections
 import iso8601
 
 
+# content digest
+def content_digest(content):
+    raise NotImplementedError
+
+
 # key sorting
 def sort_manual_keys(*sorted_keys):
     """Create a key function that sorts the given keys first."""

@@ -23,11 +23,13 @@ __version__ = '0.0.1'
 WARC_VERSION = b'WARC/1.0'
 WARC_SOFTWARE = (b'BASC-WARC/' + __version__.encode('utf8') +
                  b' Python/' + sys.version.encode('utf8'))
+WARC_FORMAT = b'WARC File Format 1.0'
+WARC_CONFORMS_TO = b'http://bibnum.bnf.fr/WARC/WARC_ISO_28500_version1_latestdraft.pdf'
 CRLF = b'\r\n'
 
 warc_sort_keyfn = utils.sort_manual_keys(
     'WARC-Type', 'WARC-Record-ID', 'WARC-Date',
-    'Content-Length', 'Content-Type', 'WARC-Concurrent-To',
+    'Content-Type', 'Content-Length', 'WARC-Concurrent-To',
     'WARC-Block-Digest', 'WARC-Payload-Digest',
     'WARC-IP-Address', 'WARC-Refers-To',
     'WARC-Target-URI', 'WARC-Truncated',
@@ -147,11 +149,20 @@ class WarcFile(object):
         Returns:
             Index of the new added record.
         """
-        # assemble fields
+        # assemble header fields
+        header_fields = {
+            'Content-Type': 'application/warc-fields',
+        }
+
+        # assemble content fields
         if operator:
             fields['operator'] = operator
         if software:
             fields['software'] = software
+        elif software is None:
+            fields['software'] = WARC_SOFTWARE
+            fields['format'] = WARC_FORMAT
+            fields['conformsTo'] = WARC_CONFORMS_TO
         if robots:
             fields['robots'] = robots
         if hostname:
@@ -164,7 +175,7 @@ class WarcFile(object):
             fields['http-header-from'] = http_header_from
 
         # create record
-        header = RecordHeader({})
+        header = RecordHeader(header_fields)
         block = WarcinfoBlock(fields)
         new_record = Record('warcinfo', header=header, block=block)
 
@@ -190,6 +201,9 @@ class Record(object):
         """Return bytes to write."""
         self.header.set_field('WARC-Type', self.record_type)
         self.header.set_field('Content-Length', self.block.length())
+        if self.block.bytes():
+            self.header.set_field('WARC-Block-Digest',
+                                  utils.content_digest(self.block.bytes()))
         return self.header.bytes() + CRLF + self.block.bytes() + CRLF + CRLF
 
 
