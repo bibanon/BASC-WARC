@@ -14,7 +14,6 @@
 import datetime
 import sys
 import threading
-import uuid
 
 from basc_warc import utils
 
@@ -82,7 +81,7 @@ class WarcFile(object):
         record_header = RecordHeader()
 
         if defaults:
-            record_header.record_id = str(uuid.uuid4())
+            record_header.record_id = utils.uuid_urn()
             record_header.date = datetime.datetime.now()
 
         # assemble record

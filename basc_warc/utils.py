@@ -13,8 +13,15 @@
 """Utility functions used by basc_warc."""
 from datetime import datetime
 import collections
+import uuid
 
 import iso8601
+
+
+# identifiers
+def uuid_urn():
+    """Return a UUID suitable for use in WARC files."""
+    return '<urn:uuid:{}>'.format(str(uuid.uuid4()))
 
 
 # content digest
