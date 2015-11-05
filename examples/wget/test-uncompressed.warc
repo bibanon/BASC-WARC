@@ -1,0 +1,168 @@
+WARC/1.0
+WARC-Type: warcinfo
+Content-Type: application/warc-fields
+WARC-Date: 2015-09-23T01:33:52Z
+WARC-Record-ID: <urn:uuid:5bf9ec92-57e1-4415-8bf2-f405e2e839d6>
+WARC-Filename: test-uncompressed.warc
+WARC-Block-Digest: sha1:FDRWYPP5H2QOVX22QBAZAGHWYNCZKP54
+Content-Length: 278
+
+software: Wget/1.16.1 (darwin14.0.0)
+format: WARC File Format 1.0
+conformsTo: http://bibnum.bnf.fr/WARC/WARC_ISO_28500_version1_latestdraft.pdf
+robots: classic
+wget-arguments: "--warc-file=test-uncompressed" "--warc-cdx=on" "--no-warc-compression" "http://example.com/" 
+
+
+
+WARC/1.0
+WARC-Type: request
+WARC-Target-URI: http://example.com/
+Content-Type: application/http;msgtype=request
+WARC-Date: 2015-09-23T01:33:52Z
+WARC-Record-ID: <urn:uuid:a4ed7c68-fd49-4fed-b71d-441ba756d682>
+WARC-IP-Address: 93.184.216.34
+WARC-Warcinfo-ID: <urn:uuid:5bf9ec92-57e1-4415-8bf2-f405e2e839d6>
+WARC-Block-Digest: sha1:XNA3CD6MCUJRRRLSAEOYDK6K74U4HG6G
+Content-Length: 141
+
+GET / HTTP/1.1
+User-Agent: Wget/1.16.1 (darwin14.0.0)
+Accept: */*
+Accept-Encoding: identity
+Host: example.com
+Connection: Keep-Alive
+
+
+
+WARC/1.0
+WARC-Type: response
+WARC-Record-ID: <urn:uuid:51c41628-266a-4db0-9d32-b5401c6f96c0>
+WARC-Warcinfo-ID: <urn:uuid:5bf9ec92-57e1-4415-8bf2-f405e2e839d6>
+WARC-Concurrent-To: <urn:uuid:a4ed7c68-fd49-4fed-b71d-441ba756d682>
+WARC-Target-URI: http://example.com/
+WARC-Date: 2015-09-23T01:33:52Z
+WARC-IP-Address: 93.184.216.34
+WARC-Block-Digest: sha1:VSTR54JTQNSXS4ZVI6NVOZ3XZ7QIP3SR
+WARC-Payload-Digest: sha1:B2LTWWPUOYAH7UIPQ7ZUPQ4VMBSVC36A
+Content-Type: application/http;msgtype=response
+Content-Length: 1591
+
+HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Cache-Control: max-age=604800
+Content-Type: text/html
+Date: Wed, 23 Sep 2015 01:33:53 GMT
+Etag: "359670651"
+Expires: Wed, 30 Sep 2015 01:33:53 GMT
+Last-Modified: Fri, 09 Aug 2013 23:54:35 GMT
+Server: ECS (rhv/818F)
+X-Cache: HIT
+x-ec-custom-error: 1
+Content-Length: 1270
+
+<!doctype html>
+<html>
+<head>
+    <title>Example Domain</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type="text/css">
+    body {
+        background-color: #f0f0f2;
+        margin: 0;
+        padding: 0;
+        font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        
+    }
+    div {
+        width: 600px;
+        margin: 5em auto;
+        padding: 50px;
+        background-color: #fff;
+        border-radius: 1em;
+    }
+    a:link, a:visited {
+        color: #38488f;
+        text-decoration: none;
+    }
+    @media (max-width: 700px) {
+        body {
+            background-color: #fff;
+        }
+        div {
+            width: auto;
+            margin: 0 auto;
+            border-radius: 0;
+            padding: 1em;
+        }
+    }
+    </style>    
+</head>
+
+<body>
+<div>
+    <h1>Example Domain</h1>
+    <p>This domain is established to be used for illustrative examples in documents. You may use this
+    domain in examples without prior coordination or asking for permission.</p>
+    <p><a href="http://www.iana.org/domains/example">More information...</a></p>
+</div>
+</body>
+</html>
+
+
+WARC/1.0
+WARC-Type: metadata
+WARC-Record-ID: <urn:uuid:dc13a85a-db19-4814-b58c-2f5d6306e034>
+WARC-Warcinfo-ID: <urn:uuid:5bf9ec92-57e1-4415-8bf2-f405e2e839d6>
+WARC-Target-URI: metadata://gnu.org/software/wget/warc/MANIFEST.txt
+WARC-Date: 2015-09-23T01:33:53Z
+WARC-Block-Digest: sha1:4CD74K3QMEOSWEOB7LS2X742UHDLGU3Y
+Content-Type: text/plain
+Content-Length: 48
+
+<urn:uuid:5bf9ec92-57e1-4415-8bf2-f405e2e839d6>
+
+
+WARC/1.0
+WARC-Type: resource
+WARC-Record-ID: <urn:uuid:4a76dbef-6099-40bd-8c56-fd68c595a8a2>
+WARC-Warcinfo-ID: <urn:uuid:5bf9ec92-57e1-4415-8bf2-f405e2e839d6>
+WARC-Concurrent-To: <urn:uuid:dc13a85a-db19-4814-b58c-2f5d6306e034>
+WARC-Target-URI: metadata://gnu.org/software/wget/warc/wget_arguments.txt
+WARC-Date: 2015-09-23T01:33:53Z
+WARC-Block-Digest: sha1:4WF574AHTOXFALOBQY5FATIYGCGKY3JK
+Content-Type: text/plain
+Content-Length: 95
+
+"--warc-file=test-uncompressed" "--warc-cdx=on" "--no-warc-compression" "http://example.com/" 
+
+
+WARC/1.0
+WARC-Type: resource
+WARC-Record-ID: <urn:uuid:28517c05-6ac5-48a0-9247-7d35cc5e6918>
+WARC-Warcinfo-ID: <urn:uuid:5bf9ec92-57e1-4415-8bf2-f405e2e839d6>
+WARC-Concurrent-To: <urn:uuid:dc13a85a-db19-4814-b58c-2f5d6306e034>
+WARC-Target-URI: metadata://gnu.org/software/wget/warc/wget.log
+WARC-Date: 2015-09-23T01:33:53Z
+WARC-Block-Digest: sha1:UZ2BMBFN2MDKRWYEKERQDQLU745AQCR5
+Content-Type: text/plain
+Content-Length: 474
+
+Opening WARC file 'test-uncompressed.warc'.
+
+--2015-09-23 11:33:52--  http://example.com/
+Resolving example.com... 93.184.216.34, 2606:2800:220:1:248:1893:25c8:1946
+Connecting to example.com|93.184.216.34|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1270 (1.2K) [text/html]
+Saving to: 'index.html.1'
+
+     0K .                                                     100% 36.7M=0s
+
+2015-09-23 11:33:53 (36.7 MB/s) - 'index.html.1' saved [1270/1270]
+
+
+
