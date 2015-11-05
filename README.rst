@@ -5,9 +5,9 @@ BASC-WARC
 
 This library is in the planning / pre-alpha stage. It is still being written, and is not yet suitable for any real-world usage at this point. While we are still writing and designing the API, anything can change without any notice.
 
-Pull requests are appreciated, but due to the early stage of development you may need to overhaul your PR as we update the project code.
+Pull requests are appreciated. Due to the early stage of development you may need to update your PR as we write the project code.
 
-This library is primarily being written for `BASC-Archiver <https://github.com/bibanon/BASC-Archiver>`_, and planned to be integrated into a new/existing downloading library.
+This library is primarily being written for `BASC-Archiver <https://github.com/bibanon/BASC-Archiver>`_, and planned to be integrated into a new/existing Python downloading library.
 
 `Hosted Documentation <http://basc-warc.readthedocs.org/en/latest/>`_
 
